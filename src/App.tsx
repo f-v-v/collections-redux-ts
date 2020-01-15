@@ -2,11 +2,11 @@ import React from 'react';
 import NavBar from './components/nav-bar'
 import './App.css';
 import ItemList from './components/item-list/item-list';
-import { ICollection } from './interfeices/collection';
+import { ICollectionUser } from './types/collections-user';
 
 
 const App: React.FC = () => {
-  const collections:ICollection[] = [
+  const collections:ICollectionUser[] = [
     {
       id:1,
       name:'Коллекция 1',

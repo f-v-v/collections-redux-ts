@@ -1,5 +1,5 @@
 import React from 'react'
-import {ICollection} from '../../interfeices/collection'
+import {ICollection} from '../../types/collection'
 
 type ListProps = {
     collections: ICollection[]

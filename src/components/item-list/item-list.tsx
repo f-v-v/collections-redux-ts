@@ -1,8 +1,8 @@
 import React from 'react'
-import {ICollection} from '../../interfeices/collection'
+import {ICollectionUser} from '../../types/collections-user'
 
 type ListProps = {
-    collections: ICollection[]
+    collections: ICollectionUser[]
 }
 
 const ItemList: React.FC<ListProps> = ({collections}) => {
