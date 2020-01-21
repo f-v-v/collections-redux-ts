@@ -5,6 +5,7 @@ import {IUserCollection} from '../types/user-collections'
 import collectionsTable from './collections'
 import userTable from './users'
 import userCollectionTable from './users-collections'
+import { clearScreenDown } from "readline"
   
 // function getAllUserCollection (): Promise<IUserCollection[]> {
 
@@ -87,9 +88,10 @@ function getCollectionsByIdUser(idUser:number): Promise<ICollectionUser[]> {
 
 
 function getAllUsers(): Promise<IUser[]> {
+  // console.log("i in getAllUserS")
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.75) {
+      if (Math.random() > 0.95) {
         reject(new Error('Something bad happened'));
       } else {
         resolve([...userTable]);
