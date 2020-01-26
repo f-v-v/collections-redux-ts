@@ -1,26 +1,37 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {getUsers} from '../../actions/users'
+import {setLoggedUser} from '../../actions/logged-user'
 import {IAppState} from '../../reducers'
 import {IStateUsers} from '../../reducers/users'
 import Spinner from '../spinner'
 import ErrorIndicator from '../error-indicator'
+import { IUser } from '../../types/user'
 
 // type ownProps = {
 //     label: string;
 // };
   
-type State = {currentUser: number | null };
+type State = {currentUser: IUser | undefined };
 type Props = LinkStateProps & LinkDispatchProps;
 
 class Login extends React.Component <Props, State> {
     
     readonly state: State = {
-        currentUser:null,
+        currentUser:undefined,
     };
 
     hadleSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        this.setState({currentUser: parseInt (e.currentTarget.value)})
+        const id:number = parseInt (e.currentTarget.value)
+        const user:IUser | undefined = this.props.users.users.find(item => item.id === id)
+
+        this.setState({currentUser: user})
+    }
+
+    handleSetUser = () => {
+        const curUser = this.state.currentUser
+        if (!curUser) {return}
+        this.props.setLoggedUser(curUser)
     }
 
     componentDidMount = () => {
@@ -29,8 +40,10 @@ class Login extends React.Component <Props, State> {
     
     render () {
         const {users:{isLoading, users, error}} = this.props;
-        const options:JSX.Element[] = users.map (user => 
-            <option key={user.id} value={user.id}>{user.name}</option>
+        const options:JSX.Element[] = users.map ((user) => {
+            
+            return <option key={user.id} value={user.id}>{user.name}</option>
+        }
         )
      
         if (isLoading) {
@@ -41,20 +54,21 @@ class Login extends React.Component <Props, State> {
             return <ErrorIndicator error={error} />
         }
         return (
-            <div className ="jumbotron jumbotron-fluid">
+            // <div className ="jumbotron jumbotron-fluid">
                 <div className ="container">
                     <div className ="form-group">
                         {/* <label for="exampleFormControlSelect1">Example select</label> */}
                         {/* <select className ="form-control" id="exampleFormControlSelect1"> */}
-                        <select className ="form-control" onChange={this.hadleSelectChange}>
+                        <select className ="form-control" defaultValue={'DEFAULT'} onChange={this.hadleSelectChange}>
+                            <option value="DEFAULT" disabled>Выбирите пользователя ...</option>
                             {options}
                         </select>
                     </div>
                     <div className ="form-group">
-                        <button onClick={() => {console.log(this.state.currentUser)}} className="btn btn-primary">Submit</button>
+                        <button onClick={this.handleSetUser} className="btn btn-primary">Submit</button>
                     </div>
                 </div>
-            </div>
+            // </div>
         )
     }
 }
@@ -64,6 +78,7 @@ interface LinkStateProps {
 }
 interface LinkDispatchProps {
     getUsers: () => void;
+    setLoggedUser: (user:IUser) => void;
 }
 
 const mapStateToProps = ({users}:IAppState) => ({
@@ -72,6 +87,7 @@ const mapStateToProps = ({users}:IAppState) => ({
   
   const mapDispatchToProps = {
     getUsers,
+    setLoggedUser,
   };
 
   export default connect(mapStateToProps, mapDispatchToProps)(Login);

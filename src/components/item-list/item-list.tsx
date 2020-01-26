@@ -1,11 +1,33 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {ICollectionUser} from '../../types/collections-user'
+import { IStateCollectionsUser } from '../../reducers/collections-user';
+import { IAppState } from '../../reducers';
+import {getAllCollectionsUser} from '../../actions/collections-user'
+import { connect } from 'react-redux';
+import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator';
 
-type ListProps = {
-    collections: ICollectionUser[]
-}
+// type ListProps = {
+//     collections: ICollectionUser[]
+// }
 
-const ItemList: React.FC<ListProps> = ({collections}) => {
+type Props = LinkStateProps & LinkDispatchProps;
+
+const ItemList: React.FC<Props> = props => {
+    const  {collectionsUser:{isLoading, collections, error}, getAllCollectionsUser } = props
+    useEffect(() => {
+        // TODO вызов из action getAllCollectionsUser
+        getAllCollectionsUser()
+    }, [])
+
+    if (isLoading) {
+        return <Spinner />
+    }
+    
+    if (error) {
+        return <ErrorIndicator error={error} />
+    }
+
     return (
         <ul className="list-group">
             <div className="container-fluid">
@@ -40,4 +62,19 @@ const ItemList: React.FC<ListProps> = ({collections}) => {
     )
 }
 
-export default ItemList
+interface LinkStateProps {
+    collectionsUser:IStateCollectionsUser;
+}
+interface LinkDispatchProps {
+    getAllCollectionsUser: () => void;
+}
+
+const mapStateToProps = ({collectionsUser}:IAppState) => ({
+    collectionsUser,
+});
+   
+   const mapDispatchToProps = {
+    getAllCollectionsUser,
+   };
+
+export default connect(mapStateToProps, mapDispatchToProps) (ItemList)

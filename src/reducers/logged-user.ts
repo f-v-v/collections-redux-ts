@@ -1,14 +1,14 @@
 import {IUser} from "../types/user";
 import { 
   loggedUserActionTypes,
-  SET_LOGGED_USER    
+  SET_LOGGED_USER
 } from "../types/actions-logged-user";
 
 export interface IStateLoggedUser {
-  loggedUser:IUser | {}
+  loggedUser:IUser | null
 }
 
-const loggedUserReducerDefaultState: IStateLoggedUser = {loggedUser:{}};
+const loggedUserReducerDefaultState: IStateLoggedUser = {loggedUser:null};
 
 export const loggedUserUserReducer = (
   state = loggedUserReducerDefaultState,

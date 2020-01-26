@@ -1,6 +1,7 @@
 import { ICollectionUser } from "../types/collections-user"
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import {IStateCollectionsUser} from "../reducers/collections-user"
+// import {IStateCollectionsUser} from "../reducers/collections-user"
+import {IAppState} from '../reducers'
 import { 
   CollectionActionTypes,
   FETCH_COLLECTIONS_FAILURE,
@@ -9,10 +10,10 @@ import {
 } from "../types/actions-collections";
 import {getCollectionsByIdUser} from '../services/service'
 
-const idUser = 1; 
+// const idUser = 1; 
 
 
-type ThunkResult<R> = ThunkAction<R, IStateCollectionsUser, undefined, CollectionActionTypes>;
+type ThunkResult<R> = ThunkAction<R, IAppState, undefined, CollectionActionTypes>;
 
 const CollectionsUserRequested = ():CollectionActionTypes => {
     return {type: FETCH_COLLECTIONS_REQUEST }
@@ -31,7 +32,10 @@ const CollectionsUserError = (error:string):CollectionActionTypes => {
     }
 };
 
-export const getAllCollectionsUser = (idUser:number):ThunkResult<void> => (dispatch) => {
+export const getAllCollectionsUser = ():ThunkResult<void> => (dispatch, getState) => {
+    console.log(' i in getAllCollectionsUser')
+    const idUser:number|undefined = getState().loggedUser.loggedUser?.id
+    if (!idUser) return // если залогиненный user = undefined пока ничего не делаем!
     dispatch(CollectionsUserRequested());
     getCollectionsByIdUser(idUser).then (
         (collections) => dispatch(CollectionsUserLoaded(collections)), 
