@@ -8,10 +8,6 @@ import Spinner from '../spinner'
 import ErrorIndicator from '../error-indicator'
 import { IUser } from '../../types/user'
 
-// type ownProps = {
-//     label: string;
-// };
-  
 type State = {currentUser: IUser | undefined };
 type Props = LinkStateProps & LinkDispatchProps;
 
@@ -57,15 +53,13 @@ class Login extends React.Component <Props, State> {
             // <div className ="jumbotron jumbotron-fluid">
                 <div className ="container">
                     <div className ="form-group">
-                        {/* <label for="exampleFormControlSelect1">Example select</label> */}
-                        {/* <select className ="form-control" id="exampleFormControlSelect1"> */}
                         <select className ="form-control" defaultValue={'DEFAULT'} onChange={this.hadleSelectChange}>
                             <option value="DEFAULT" disabled>Выбирите пользователя ...</option>
                             {options}
                         </select>
                     </div>
                     <div className ="form-group">
-                        <button onClick={this.handleSetUser} className="btn btn-primary">Submit</button>
+                        <button onClick={this.handleSetUser} className="btn btn-primary">Login</button>
                     </div>
                 </div>
             // </div>
@@ -91,5 +85,3 @@ const mapStateToProps = ({users}:IAppState) => ({
   };
 
   export default connect(mapStateToProps, mapDispatchToProps)(Login);
-
-  // export default Login

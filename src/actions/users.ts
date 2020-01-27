@@ -1,5 +1,5 @@
 import { IUser } from "../types/user"
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { IStateUsers } from "../reducers/users";
 import { 
      userActionTypes,

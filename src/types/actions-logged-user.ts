@@ -1,7 +1,5 @@
 import { IUser } from "./user";
 
-// action strings
-
 export const SET_LOGGED_USER = 'SET_LOGGED_USER';
 
 export interface setLoggedUser {
@@ -11,5 +9,3 @@ export interface setLoggedUser {
 
 export type loggedUserActionTypes =
   | setLoggedUser
-
-// export type AppActions = loggedUserActionTypes;

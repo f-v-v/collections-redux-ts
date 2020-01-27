@@ -23,5 +23,3 @@ export const loggedUserUserReducer = (
       return state;
   }
 };
-
-// export { collectionsUserReducer };

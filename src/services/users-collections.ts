@@ -12,19 +12,19 @@ const userCollectionTable: IUserCollectionTable[] = [
           idCollection:1,
           use: true,
           edit: true,
-          own:true,
+          own:false,
         },
         {
           idUser:1,
           idCollection:2,
           use: true,
-          edit: true,
-          own:true,
+          edit: false,
+          own:false,
         },
         {
           idUser:1,
           idCollection:3,
-          use: true,
+          use: false,
           edit: true,
           own:true,
         },
@@ -33,7 +33,7 @@ const userCollectionTable: IUserCollectionTable[] = [
           idCollection:1,
           use: true,
           edit: true,
-          own:true,
+          own:false,
         },
         {
           idUser:2,
@@ -45,8 +45,8 @@ const userCollectionTable: IUserCollectionTable[] = [
         {
           idUser:3,
           idCollection:1,
-          use: true,
-          edit: true,
+          use: false,
+          edit: false,
           own:true,
         },
         {

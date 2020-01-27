@@ -45,5 +45,3 @@ export const usersReducer = (
       return state;
   }
 };
-
-// export { collectionsUserReducer };

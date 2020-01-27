@@ -1,7 +1,5 @@
-export interface IUserCollection {
-    id: number;
-    name: string;
-    use: boolean;
-    edit: boolean;
-    own: boolean;
+import { IUser } from "./user";
+import { IPermitions } from "./permitions";
+
+export interface IUserCollection extends IUser, IPermitions {
 }

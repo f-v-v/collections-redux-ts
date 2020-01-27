@@ -1,45 +1,82 @@
 import { ICollectionUser } from "../types/collections-user"
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 // import {IStateCollectionsUser} from "../reducers/collections-user"
 import {IAppState} from '../reducers'
 import { 
-  CollectionActionTypes,
-  FETCH_COLLECTIONS_FAILURE,
-  FETCH_COLLECTIONS_REQUEST,
-  FETCH_COLLECTIONS_SUCCESS      
-} from "../types/actions-collections";
-import {getCollectionsByIdUser} from '../services/service'
+  collectionUserActionTypes,
+  FETCH_COLLECTIONS_USER_FAILURE,
+  FETCH_COLLECTIONS_USER_REQUEST,
+  FETCH_COLLECTIONS_USER_SUCCESS,
+  ADD_COLLECTIONS_USER,
+  EDIT_COLLECTIONS_USER      
+} from "../types/actions-collections-user";
+import {getCollectionsByIdUser, 
+        addCollectionByIdUser,
+        editCollections
+    } from '../services/service'
+import { ICollection } from "../types/collection";
+// import {Action} from 'redux'
 
-// const idUser = 1; 
 
+type ThunkResult<R> = ThunkAction<R, IAppState, undefined, collectionUserActionTypes>;
+// type ThunkResult<R> = ThunkAction<R, IAppState, undefined, Action>;
 
-type ThunkResult<R> = ThunkAction<R, IAppState, undefined, CollectionActionTypes>;
-
-const CollectionsUserRequested = ():CollectionActionTypes => {
-    return {type: FETCH_COLLECTIONS_REQUEST }
+const collectionsUserRequested = ():collectionUserActionTypes => {
+    return {type: FETCH_COLLECTIONS_USER_REQUEST }
 };
 
-const CollectionsUserLoaded = (collections:ICollectionUser[]):CollectionActionTypes => {
+const collectionsUserLoaded = (collections:ICollectionUser[]):collectionUserActionTypes => {
     return {
-        type: FETCH_COLLECTIONS_SUCCESS,
+        type: FETCH_COLLECTIONS_USER_SUCCESS,
         payload: collections
     }
 };
-const CollectionsUserError = (error:string):CollectionActionTypes => {
+const collectionsUserError = (error:string):collectionUserActionTypes => {
     return {
-        type: FETCH_COLLECTIONS_FAILURE,
+        type: FETCH_COLLECTIONS_USER_FAILURE,
         payload:error
+    }
+};
+const collectionsUserAdd = (collection:ICollectionUser):collectionUserActionTypes => {
+    return {
+        type: ADD_COLLECTIONS_USER,
+        payload:collection
+    }
+};
+const collectionsUserEdit = (collection:ICollection):collectionUserActionTypes => {
+    return {
+        type: EDIT_COLLECTIONS_USER,
+        payload:collection
     }
 };
 
 export const getAllCollectionsUser = ():ThunkResult<void> => (dispatch, getState) => {
-    console.log(' i in getAllCollectionsUser')
     const idUser:number|undefined = getState().loggedUser.loggedUser?.id
     if (!idUser) return // если залогиненный user = undefined пока ничего не делаем!
-    dispatch(CollectionsUserRequested());
+    dispatch(collectionsUserRequested());
     getCollectionsByIdUser(idUser).then (
-        (collections) => dispatch(CollectionsUserLoaded(collections)), 
-        (error) => dispatch(CollectionsUserError(error.message))
+        (collections) => dispatch(collectionsUserLoaded(collections)), 
+        (error) => dispatch(collectionsUserError(error.message))
     )
 }
 
+// Подумать нужно ли тут использовать isLoading и error??!!
+export const addCollectionUser = (collection:ICollection):ThunkResult<void> => (dispatch, getState) => {
+    const idUser:number|undefined = getState().loggedUser.loggedUser?.id
+    if (!idUser) return // если залогиненный user = undefined пока ничего не делаем!
+    const {id:idCollection, ...collection_}=collection
+    addCollectionByIdUser(idUser, collection_).then(
+        (collectionUser) => {
+            dispatch(collectionsUserAdd(collectionUser))
+        },
+        (error) => dispatch(collectionsUserError(error.message))
+    )
+}
+
+// Подумать нужно ли тут использовать isLoading и error??!!
+export const editCollectionUser = (collection:ICollection):ThunkResult<void> => (dispatch) => {
+    editCollections(collection).then(
+        (item) => dispatch(collectionsUserEdit(item)),
+        (error) => dispatch(collectionsUserError(error.message))
+    )
+}

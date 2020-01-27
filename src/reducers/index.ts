@@ -1,4 +1,4 @@
-import { combineReducers, Reducer, Dispatch  } from 'redux';
+import { combineReducers, Reducer} from 'redux';
 // import {CollectionActionTypes} from '../types/actions-collections'
 import {IStateCollectionsUser, collectionsUserReducer} from './collections-user'
 import {IStateLoggedUser, loggedUserUserReducer} from './logged-user'
