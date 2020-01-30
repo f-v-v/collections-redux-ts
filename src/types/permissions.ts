@@ -1,4 +1,4 @@
-export interface IPermitions {
+export interface Ipermissions {
     use: boolean;
     edit: boolean;
     own: boolean;

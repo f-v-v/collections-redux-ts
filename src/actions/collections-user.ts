@@ -15,11 +15,13 @@ import {getCollectionsByIdUser,
         editCollections
     } from '../services/service'
 import { ICollection } from "../types/collection";
+import { Action } from "redux";
 // import {Action} from 'redux'
 
 
-type ThunkResult<R> = ThunkAction<R, IAppState, undefined, collectionUserActionTypes>;
-// type ThunkResult<R> = ThunkAction<R, IAppState, undefined, Action>;
+// type ThunkResult<R> = ThunkAction<R, IAppState, undefined, collectionUserActionTypes>;
+type ThunkResult<R> = ThunkAction<R, IAppState, undefined, Action>;
+// type MyThunkDispatch = ThunkDispatch<IAppState, undefined, Action>;
 
 const collectionsUserRequested = ():collectionUserActionTypes => {
     return {type: FETCH_COLLECTIONS_USER_REQUEST }
@@ -66,17 +68,15 @@ export const addCollectionUser = (collection:ICollection):ThunkResult<void> => (
     if (!idUser) return // если залогиненный user = undefined пока ничего не делаем!
     const {id:idCollection, ...collection_}=collection
     addCollectionByIdUser(idUser, collection_).then(
-        (collectionUser) => {
-            dispatch(collectionsUserAdd(collectionUser))
-        },
-        (error) => dispatch(collectionsUserError(error.message))
+        (collectionUser) => dispatch(collectionsUserAdd(collectionUser)),
+        (error:Error) => dispatch(collectionsUserError(error.message))
     )
 }
 
 // Подумать нужно ли тут использовать isLoading и error??!!
 export const editCollectionUser = (collection:ICollection):ThunkResult<void> => (dispatch) => {
-    editCollections(collection).then(
+    return editCollections(collection).then(
         (item) => dispatch(collectionsUserEdit(item)),
-        (error) => dispatch(collectionsUserError(error.message))
+        (error:Error) => dispatch(collectionsUserError(error.message))
     )
 }

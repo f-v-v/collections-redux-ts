@@ -11,6 +11,7 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { ICollection } from '../../types/collection';
 import { ModalCollection } from '../modal-collection';
+import { useHistory } from 'react-router-dom';
 
 type Props = LinkStateProps & LinkDispatchProps;
 
@@ -34,6 +35,7 @@ const ItemList: React.FC<Props> = props => {
         getAllCollectionsUser()
     }, [])
 
+    const history = useHistory()
     const handlEdit = (collection:ICollection):void => {
         setCurrCollection(collection)
         setShowModal(true)
@@ -50,6 +52,10 @@ const ItemList: React.FC<Props> = props => {
 
     const handlShowModalClose = () => {
         setShowModal(false)
+    }
+
+    const handlPermission = (id:number) => {
+        history.push(`collections/${id}`)
     }
 
     if (isLoading) {
@@ -89,10 +95,17 @@ const ItemList: React.FC<Props> = props => {
                                 >Редактировать</button>
                             </div>
                             <div className="col-sm-2">
-                                <button type="button" className="btn btn-primary btn-sm">Разрешения</button>
+                                <button 
+                                    type="button" 
+                                    className="btn btn-primary btn-sm"
+                                    onClick={() => {handlPermission(item.id)}}
+                                >Разрешения</button>
                             </div>
                             <div className="col-sm-2">
-                                <button type="button" className="btn btn-primary btn-sm">Состав</button>
+                                <button 
+                                    type="button" 
+                                    className="btn btn-primary btn-sm"
+                                >Состав</button>
                             </div>
                         </div>
                     </li>

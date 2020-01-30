@@ -1,10 +1,11 @@
-import { ICollection, ICollection_ } from "../types/collection"
+import { ICollection, ICollection_} from "../types/collection"
 import {IUser} from '../types/user'
 import {ICollectionUser} from '../types/collections-user'
-import {IUserCollection} from '../types/user-collections'
+import {IUserCollection} from '../types/users-collection'
 import collectionsTable from './collections'
 import userTable from './users'
 import userCollectionTable from './users-collections'
+import { Ipermissions } from "../types/permissions"
 
 function _getCollectionsByIdUser (idUser:number):ICollectionUser[]  {
   const arr = userCollectionTable.filter(item => item.idUser === idUser)
@@ -82,6 +83,52 @@ function _addCollectionsByIdUser (idUser:number, collection: ICollection_): ICol
   }
 }
 
+// function _addPermissionsByIdUserIdcollection (User:IUser, idCollection:number , permissions: Ipermissions): IUserCollection {
+//    userCollectionTable.push(
+//   //   {
+//   //   idUser,
+//   //   idCollection,
+//   //   use:true,
+//   //   edit: true,
+//   //   own:true
+//   // }
+//     {idUser: User.id, idCollection, ...permissions}
+//   )
+//   return {
+//     ...User, ...permissions
+//   }
+// }
+
+// function _editUserPermissions (collection: ICollection, user: IUser, permissions: Ipermissions): IUserCollection {
+//   userCollectionTable.forEach(item => {
+//     if (item.idUser === user.id  && item.idCollection === collection.id) { 
+//         item.use = permissions.use
+//         item.edit = permissions.edit
+//         item.own = permissions.own
+//     }
+//   })
+//   //для простоты пока возвращаем тот же объект что и приняли
+//   // хотя нало сделать заново поиск по такблице
+//   return {...user, ...permissions}
+// }
+
+function _addEditPermissionsByIdUserIdcollection (user:IUser, idCollection:number , permissions: Ipermissions): IUserCollection {
+  // debugger
+  const findIndex:number = userCollectionTable.findIndex((item) =>{
+    return (item.idUser === user.id && item.idCollection === idCollection)
+  })
+  if (findIndex > -1) {
+    userCollectionTable[findIndex] = {idUser: user.id, idCollection, ...permissions}
+  } else {
+    userCollectionTable.push(
+      {idUser: user.id, idCollection, ...permissions}
+    )
+  }
+  return {
+    ...user, ...permissions
+  }
+}
+
 //нужен ли тут idUser??!! и что возвращять ICollectionUser или ICollection
 function _editCollections (collection: ICollection): ICollection {
   // Этот код работает но это сайдэффект, map не должен менять исходный массив!
@@ -109,10 +156,11 @@ function _editCollections (collection: ICollection): ICollection {
 }
 
 
+
 function getAllCollections(): Promise<ICollection[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Something bad happened'));
       } else {
         resolve([...collectionsTable]);
@@ -124,7 +172,7 @@ function getAllCollections(): Promise<ICollection[]> {
 function getCollectionById(idCollection:number): Promise<ICollection> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Something bad happened'));
       } else {
         const collection:ICollection |undefined = collectionsTable.find(item => item.id === idCollection )
@@ -138,7 +186,7 @@ function getCollectionById(idCollection:number): Promise<ICollection> {
 function getCollectionsByIdUser(idUser:number): Promise<ICollectionUser[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Something bad happened'));
       } else {
         resolve(_getCollectionsByIdUser(idUser));
@@ -150,35 +198,71 @@ function getCollectionsByIdUser(idUser:number): Promise<ICollectionUser[]> {
 function addCollectionByIdUser(idUser:number, collection:ICollection_): Promise<ICollectionUser> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Error add in DataBase'));
       } else {
-        console.log('add collectionTable', collectionsTable)
+        // console.log('add collectionTable', collectionsTable)
         resolve(_addCollectionsByIdUser(idUser, collection));
       }
     }, 700);
   });
 }
 
+// function addPermissionsByUserCollection(User:IUser, collection:ICollection, permissions: Ipermissions): Promise<IUserCollection> {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (Math.random() > 0.98) {
+//         reject(new Error('Error add in DataBase'));
+//       } else {
+//         console.log('add collectionTable', collectionsTable)
+//         resolve(_addPermissionsByIdUserIdcollection(User, collection.id, permissions));
+//       }
+//     }, 700);
+//   });
+// }
+
 function editCollections(collection:ICollection): Promise<ICollection> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Error add in DataBase'));
       } else {
-        console.log('Edit collectionTable', collectionsTable)
+        // console.log('Edit collectionTable', collectionsTable)
         resolve(_editCollections(collection));
       }
     }, 700);
   });
 }
 
+// function editUserPermissions(collection:ICollection , user:IUser, permissions: Ipermissions): Promise<IUserCollection> {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (Math.random() > 0.98) {
+//         reject(new Error('Error add in DataBase'));
+//       } else {
+//         resolve(_editUserPermissions(collection, user, permissions ));
+//       }
+//     }, 700);
+//   });
+// }
 
+function addEditPermissionsByUserCollection(User:IUser, collection:ICollection, permissions: Ipermissions): Promise<IUserCollection> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() > 0.98) {
+        reject(new Error('Error add in DataBase'));
+      } else {
+        // console.log('add collectionTable', collectionsTable)
+        resolve(_addEditPermissionsByIdUserIdcollection(User, collection.id, permissions));
+      }
+    }, 700);
+  });
+}
 
 function getAllUsers(): Promise<IUser[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Something bad happened'));
       } else {
         resolve([...userTable]);
@@ -190,7 +274,7 @@ function getAllUsers(): Promise<IUser[]> {
 function getUserById(idUser:number): Promise<IUser> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Something bad happened'));
       } else {
         const collection:IUser |undefined = userTable.find(item => item.id === idUser )
@@ -204,7 +288,7 @@ function getUserById(idUser:number): Promise<IUser> {
 function getUsersByIdCollection(idCollection:number): Promise<IUserCollection[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (Math.random() > 0.95) {
+      if (Math.random() > 0.98) {
         reject(new Error('Something bad happened'));
       } else {
         resolve(_getUsersByIdCollection(idCollection));
@@ -213,12 +297,16 @@ function getUsersByIdCollection(idCollection:number): Promise<IUserCollection[]>
   });
 }
 
-export {getAllCollections, 
-        getCollectionById,
-        getCollectionsByIdUser,
-        getAllUsers,
-        getUserById,
-        getUsersByIdCollection,
-        addCollectionByIdUser,
-        editCollections
-      }
+export {
+  getAllCollections, 
+  getCollectionById,
+  getCollectionsByIdUser,
+  getAllUsers,
+  getUserById,
+  getUsersByIdCollection,
+  addCollectionByIdUser,
+  editCollections,
+  // editUserPermissions,
+  // addPermissionsByUserCollection,
+  addEditPermissionsByUserCollection
+}

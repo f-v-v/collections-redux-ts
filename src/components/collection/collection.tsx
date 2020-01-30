@@ -44,6 +44,10 @@ export const Collection: React.FC<Props > = ({collection, onSave, onClose}) => {
         }
         onSave(state)
     }
+    const handlClose = (e: React.FormEvent<HTMLButtonElement>):void => {
+        e.preventDefault()
+        onClose()
+    }
     
 
     return (<form>
@@ -118,7 +122,7 @@ export const Collection: React.FC<Props > = ({collection, onSave, onClose}) => {
                         <button 
                             // type="submit" 
                             className="btn btn-primary"
-                            onClick={onClose}
+                            onClick={handlClose}
                         >Закрыть</button>
                     </div>
                 </div>

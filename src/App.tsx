@@ -5,8 +5,8 @@ import Login from './components/login/';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from './pages/home'
 import ItemList from './components/item-list/item-list';
-// import { ICollectionUser } from './types/collections-user';
-
+import CollectionPermission from './components/collection-permission'
+import NotFound from './pages/not-found';
 
 const App: React.FC = () => {
   return (
@@ -16,7 +16,10 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/" component={HomePage} exact/>
           <Route path="/login" component={Login} />
-          <Route path="/collections" component={ItemList} />
+          <Route path="/collections" exact component={ItemList} />
+          <Route path="/collections/:id" component={CollectionPermission}/>
+          <Route path="/error" exact component={NotFound} />
+          <Route component={NotFound}/>
         </Switch>
       </div>
     </>

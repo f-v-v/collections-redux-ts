@@ -1,5 +1,5 @@
 import { ICollection } from "./collection";
-import { IPermitions } from "./permitions";
+import { Ipermissions } from "./permissions";
 
-export interface ICollectionUser extends ICollection, IPermitions {
+export interface ICollectionUser extends ICollection, Ipermissions {
 }

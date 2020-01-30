@@ -7,7 +7,6 @@ import {IStateUsers} from '../../reducers/users'
 import Spinner from '../spinner'
 import ErrorIndicator from '../error-indicator'
 import { IUser } from '../../types/user'
-import SelectUser from '../select-user/select-user'
 
 type State = {currentUser: IUser | undefined };
 type Props = LinkStateProps & LinkDispatchProps;
@@ -18,7 +17,10 @@ class Login extends React.Component <Props, State> {
         currentUser:undefined,
     };
 
-    hadleSelectChange = (user:IUser) => {
+    hadleSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
+        const id:number = parseInt (e.currentTarget.value)
+        const user:IUser | undefined = this.props.users.users.find(item => item.id === id)
+
         this.setState({currentUser: user})
     }
 
@@ -33,7 +35,12 @@ class Login extends React.Component <Props, State> {
     }
     
     render () {
-        const {users:{isLoading, error}} = this.props;
+        const {users:{isLoading, users, error}} = this.props;
+        const options:JSX.Element[] = users.map ((user) => {
+            
+            return <option key={user.id} value={user.id}>{user.name}</option>
+        }
+        )
      
         if (isLoading) {
             return <Spinner />
@@ -45,11 +52,12 @@ class Login extends React.Component <Props, State> {
         return (
             // <div className ="jumbotron jumbotron-fluid">
                 <div className ="container">
-                    <SelectUser 
-                        disable={false} 
-                        onChangeUser={this.hadleSelectChange} 
-                        current="0"
-                    />
+                    <div className ="form-group">
+                        <select className ="form-control" defaultValue={'DEFAULT'} onChange={this.hadleSelectChange}>
+                            <option value="DEFAULT" disabled>Выбирите пользователя ...</option>
+                            {options}
+                        </select>
+                    </div>
                     <div className ="form-group">
                         <button onClick={this.handleSetUser} className="btn btn-primary">Login</button>
                     </div>

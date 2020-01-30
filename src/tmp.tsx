@@ -5,7 +5,8 @@ import { Action } from 'redux';
 
 type MyRootState = {
     isLoading:boolean;
-    mystr:string
+    mystr:string;
+    error:null|string
 };
 type MyExtraArg = undefined;
 type MyThunkResult<R> = ThunkAction<R, MyRootState, MyExtraArg, Action>;
@@ -14,7 +15,8 @@ type MyThunkResult<R> = ThunkAction<R, MyRootState, MyExtraArg, Action>;
 type MyThunkDispatch = ThunkDispatch<MyRootState, MyExtraArg, Action>;
 const SET_STRING = 'SET_STRING'
 const SET_LOADING = 'SET_LOADING'
-const myDefaultState: MyRootState = {isLoading:true, mystr:""}
+const SET_ERROR = 'SET_ERROR'
+const myDefaultState: MyRootState = {isLoading:true, mystr:"", error:null}
 
 interface ISettring {
     type: typeof SET_STRING;
@@ -24,10 +26,15 @@ interface ISettring {
 interface ISetLoading {
     type: typeof SET_LOADING;
 }
+interface ISetError {
+    type: typeof SET_ERROR;
+    payload:string
+}
 
   export type myStringActionTypes =
     | ISettring
     | ISetLoading
+    | ISetError
 
 const setMyStringReducer = (
     state = myDefaultState,
@@ -38,10 +45,14 @@ const setMyStringReducer = (
         return {...state,
           mystr:action.payload,
         };
-      case SET_LOADING:
-        return {...state,
-          isLoading:true,
-        };
+        case SET_LOADING:
+          return {...state,
+            isLoading:true,
+          };
+        case SET_ERROR:
+          return {...state,
+            error:action.payload,
+          };
       default:
         return state;
     }
@@ -57,6 +68,12 @@ const setLoading = ():myStringActionTypes => {
     return {
         type: SET_LOADING,
     }
+};
+const setError = (str:string):myStringActionTypes => {
+  return {
+      type: SET_ERROR,
+      payload:str
+  }
 };
 
 function getStr(str:string): Promise<string> {
@@ -79,6 +96,10 @@ const anotherThunkAction = (str:string): MyThunkResult<Promise<string>> => (disp
         (str) => {
             dispatch(setString(str))
         return str
+        }
+    , (error:Error) => {
+          dispatch(setError(error.message))
+        return error.message
         }
     )
 
