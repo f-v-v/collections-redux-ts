@@ -44,7 +44,8 @@ export const CollectionUserpermissions: React.FC<Props > = ({
     const handlSelectUser = (user:IUser): void => {
         setUserState(user)
     }
-    const handlSave = (): void => {
+    const handlSave = (e: React.FormEvent<HTMLButtonElement>): void => {
+        e.preventDefault()
         const state = {
             use,
             edit,

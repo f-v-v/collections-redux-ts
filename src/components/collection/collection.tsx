@@ -34,7 +34,8 @@ export const Collection: React.FC<Props > = ({collection, onSave, onClose}) => {
     const handlActive = (e: React.FormEvent<HTMLInputElement>): void => {
         setActive(e.currentTarget.checked)
     }
-    const handlSave = (): void => {
+    const handlSave = (e: React.FormEvent<HTMLButtonElement>): void => {
+        e.preventDefault()
         const state = {
             id,
             name,

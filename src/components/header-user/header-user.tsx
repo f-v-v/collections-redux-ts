@@ -6,10 +6,10 @@ import { IUser } from '../../types/user'
 type Props = LinkStateProps
 
 export const HeaderUser:React.FC <Props> = (props) => {
-    const userName:string = props.user === null ? "Вход не выполнен": props.user.name
+    const userName:string = props.user === null ? "Вход не выполнен": "Вы вошли как: " + props.user.name
     return (
         <div>
-            <span className="navbar-text">{userName} </span>
+            <span >{userName} </span>
         </div>
     )
 }

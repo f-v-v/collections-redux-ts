@@ -92,6 +92,7 @@ const ItemList: React.FC<Props> = props => {
                                 type="button" 
                                 className="btn btn-primary btn-sm " 
                                 onClick={() => handlEdit (tmpCollection)}
+                                disabled={!item.edit}
                                 >Редактировать</button>
                             </div>
                             <div className="col-sm-2">
@@ -99,6 +100,7 @@ const ItemList: React.FC<Props> = props => {
                                     type="button" 
                                     className="btn btn-primary btn-sm"
                                     onClick={() => {handlPermission(item.id)}}
+                                    disabled={!item.own}
                                 >Разрешения</button>
                             </div>
                             <div className="col-sm-2">
