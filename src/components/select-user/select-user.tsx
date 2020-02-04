@@ -18,9 +18,10 @@ type Props = LinkStateProps & ownProps;
 // Продумать работу компонента! Нужен ли внутренний стайт?
 const SelectUser: React.FC<Props> = (props) => {
     const {users:{users}, onChangeUser, current} = props;
-
+    console.log('in select propsUser', current)
     const [currentUser, setCurrentUser] = useState<IUser | '0'>(current);
     useEffect(() => {
+        console.log('in select effect', current)
         setCurrentUser(current)
 
     }, [current])
@@ -34,6 +35,7 @@ const SelectUser: React.FC<Props> = (props) => {
     const options:JSX.Element[] = users.map ((user) => {
         return <option key={user.id} value={user.id}>{user.name}</option>
     })
+    console.log('in select currUser', currentUser)
     return(
         <div className ="form-group">
             <select 

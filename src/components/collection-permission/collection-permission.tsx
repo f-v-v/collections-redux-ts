@@ -4,9 +4,10 @@ import { IStateUsersCollection } from '../../reducers/users-collection'
 import { IAppState } from '../../reducers'
 import { connect } from 'react-redux'
 import {
-    getAllUsersCollection,
-    // editUserCollection,
-    ModifyUserPermission
+    usersCollectionRequested,
+    fetchModifyUsersCollection,
+    // getAllUsersCollection,
+    // ModifyUserPermission
 } from '../../actions/users-collection'
 import SelectedCollection from '../selected-collection'
 import Spinner from '../spinner'
@@ -15,10 +16,11 @@ import { ModalCollectionPermission } from '../modal-collection-permission/modal-
 import { IUser } from '../../types/user'
 import { Ipermissions } from '../../types/permissions'
 import { ICollection } from '../../types/collection'
+import { userCollectionActionTypes } from '../../types/actions-users-collection'
 
-type ownProps = {
-    // idCollection: number
-}
+// type ownProps = {
+//     // idCollection: number
+// }
 
 interface RouteParams {
     id: string
@@ -27,7 +29,7 @@ type Props = LinkStateProps & LinkDispatchProps;
 
 const CollectionPermission:React.FC<Props> = (props) => {
     const {usersCollection:{isLoading, users, error, selectedCollection},
-            getAllUsersCollection, ModifyUserPermission
+    usersCollectionRequested, fetchModifyUsersCollection
         } = props
     const ok:JSX.Element = <i className="fa fa-check-square-o"></i>
     const not:JSX.Element = <i className="fa fa-minus-square-o"></i>
@@ -55,20 +57,26 @@ const CollectionPermission:React.FC<Props> = (props) => {
             // history.push('/error')
             history.replace('/error');
         }
-        getAllUsersCollection(idCollection)
+        usersCollectionRequested(idCollection)
     }, [idCollection])
     const handlEdit = (user:IUser, permissions:Ipermissions):void => {
+        console.log('in hadlEdit user', user)
+        console.log('in hadlEdit permission', permissions)
         setCurrUser(user)
         setCurrPermissions(permissions)
-
+        console.log('in hadlEdit curUser', currUser)
+        console.log('in hadlEdit curPermission', currPermissions)
         setShowModal(true)
     }
     const handlShowModalClose = () => {
+        // setCurrUser(defaultUser)
+        // setCurrPermissions(defaultPermissions)
+        
         setShowModal(false)
     }
     const handlSave = (collection:ICollection, user:IUser, permissions: Ipermissions):void => {
         // editUserCollection(collection, user, permissions)
-        ModifyUserPermission(user, collection, permissions)
+        fetchModifyUsersCollection(user, collection, permissions)
         setShowModal(false)
     }
 
@@ -155,9 +163,13 @@ interface LinkStateProps {
     usersCollection:IStateUsersCollection;
 }
 interface LinkDispatchProps {
-    getAllUsersCollection: (id:number) => void;
-    // editUserCollection: (collection: ICollection, user: IUser, permissions: Ipermissions) => void,
-    ModifyUserPermission: (user: IUser, collection: ICollection, permissions: Ipermissions) => void
+    usersCollectionRequested:(id:number) => userCollectionActionTypes;
+    fetchModifyUsersCollection:(
+        user:IUser, 
+        collection:ICollection, 
+        permissions: Ipermissions) => userCollectionActionTypes
+    // getAllUsersCollection: (id:number) => void;
+    // ModifyUserPermission: (user: IUser, collection: ICollection, permissions: Ipermissions) => void
 }
 
 const mapStateToProps = ({usersCollection}:IAppState) => ({
@@ -165,9 +177,10 @@ const mapStateToProps = ({usersCollection}:IAppState) => ({
 });
    
 const mapDispatchToProps = {
-    getAllUsersCollection,
-    // editUserCollection,
-    ModifyUserPermission
+    usersCollectionRequested,
+    fetchModifyUsersCollection,
+    // getAllUsersCollection,
+    // ModifyUserPermission
 };
 
 export default connect(mapStateToProps, mapDispatchToProps) (CollectionPermission)

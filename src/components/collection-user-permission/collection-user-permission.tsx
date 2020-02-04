@@ -20,6 +20,9 @@ export const CollectionUserpermissions: React.FC<Props > = ({
             onClose,
 
         }) => {
+    
+    console.log('in modal user', user)
+    console.log('in modal permission', permission)
     const [use, setUse] =useState(permission.use)
     const [edit, setEdit] =useState(permission.edit)
     const [own, setOwn] =useState(permission.own)
@@ -42,6 +45,7 @@ export const CollectionUserpermissions: React.FC<Props > = ({
         setOwn(e.currentTarget.checked)
     }
     const handlSelectUser = (user:IUser): void => {
+        console.log('in modal handlSelectUser', user)
         setUserState(user)
     }
     const handlSave = (e: React.FormEvent<HTMLButtonElement>): void => {
@@ -55,9 +59,10 @@ export const CollectionUserpermissions: React.FC<Props > = ({
     }
     const handlClose = (e: React.FormEvent<HTMLButtonElement>):void => {
         e.preventDefault() //если спользовал onCLose на прямую, почему-то первый раз происходит перезагрузка страницы!
+        // setUserState(user)
         onClose()
     }
-
+    const isSaved:boolean = (use || edit || own) && userState.id !== 0
     return (
         <form>
             <div className="form-group row">
@@ -85,7 +90,8 @@ export const CollectionUserpermissions: React.FC<Props > = ({
                 <SelectUser 
                     onChangeUser={handlSelectUser} 
                     disable={user.id !== 0? true: false}
-                    current={user.id === 0? "0": user}
+                    // current={user.id === 0? "0": user}
+                    current={userState.id === 0? "0": userState}
                 />
                 {/* <input type="text" 
                     disabled 
@@ -147,6 +153,7 @@ export const CollectionUserpermissions: React.FC<Props > = ({
                     <button 
                         className="btn btn-primary"
                         onClick={handlSave}
+                        disabled = {!isSaved}
                     >Сохранить</button>
                 </div>
                 <div className="col-sm-2">

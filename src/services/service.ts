@@ -247,6 +247,8 @@ function editCollections(collection:ICollection): Promise<ICollection> {
 // }
 
 function addEditPermissionsByUserCollection(User:IUser, collection:ICollection, permissions: Ipermissions): Promise<IUserCollection> {
+  // console.log('addEditPermissions collectionTable', collectionsTable)
+  // debugger
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (Math.random() > 0.98) {

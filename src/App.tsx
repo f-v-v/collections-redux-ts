@@ -21,10 +21,7 @@ const App: React.FC = () => {
       <div className="container-fluid">
         <Switch>
           <Route path="/" component={HomePage} exact/>
-          {/* <PrivateRoute exact={true} path='/' component={HomePage} /> */}
           <Route path="/login" component={Login} />
-          {/* <Route path="/collections" exact component={ItemList} />
-          <Route path="/collections/:id" component={CollectionPermission}/> */}
           <PrivateRoute path="/collections" exact component={ItemList} />
           <PrivateRoute path="/collections/:id" component={CollectionPermission}/>
           <Route path="/error" exact component={NotFound} />

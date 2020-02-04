@@ -2,10 +2,15 @@ import { IUser } from "./user";
 
 // action strings
 
+export const FETCH_USERS_REQUESTING = 'FETCH_USERS_REQUEST_REQUESTING';
 export const FETCH_USERS_REQUEST = 'FETCH_USERS_REQUEST';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
 
+
+export interface usersRequesting {
+  type: typeof FETCH_USERS_REQUESTING;
+}
 
 export interface usersRequested {
   type: typeof FETCH_USERS_REQUEST;
@@ -27,7 +32,8 @@ export interface usersError {
 export type userActionTypes =
   | usersRequested
   | usersLoaded
-  | usersError;
+  | usersError
+  | usersRequesting;
 
 
 // export type AppActions = CollectionActionTypes;

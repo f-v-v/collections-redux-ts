@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {getUsers} from '../../actions/users'
+import {UsersRequesting} from '../../actions/users'
 import {setLoggedUser} from '../../actions/logged-user'
 import {IAppState} from '../../reducers'
 import {IStateUsers} from '../../reducers/users'
@@ -8,6 +8,8 @@ import Spinner from '../spinner'
 import ErrorIndicator from '../error-indicator'
 import { IUser } from '../../types/user'
 import SelectUser from '../select-user/select-user'
+import { loggedUserActionTypes } from '../../types/actions-logged-user'
+import { userActionTypes } from '../../types/actions-users'
 
 type State = {currentUser: IUser | undefined };
 type Props = LinkStateProps & LinkDispatchProps;
@@ -29,7 +31,8 @@ class Login extends React.Component <Props, State> {
     }
 
     componentDidMount = () => {
-        this.props.getUsers();    
+        // this.props.getUsers();    
+        this.props.UsersRequesting();    
     }
     
     render () {
@@ -63,8 +66,9 @@ interface LinkStateProps {
    users:IStateUsers;
 }
 interface LinkDispatchProps {
-    getUsers: () => void;
-    setLoggedUser: (user:IUser) => void;
+    // getUsers: () => void;
+    UsersRequesting: () => userActionTypes;
+    setLoggedUser: (user:IUser) => loggedUserActionTypes;
 }
 
 const mapStateToProps = ({users}:IAppState) => ({
@@ -72,7 +76,8 @@ const mapStateToProps = ({users}:IAppState) => ({
   });
   
   const mapDispatchToProps = {
-    getUsers,
+    // getUsers,
+    UsersRequesting,
     setLoggedUser,
   };
 

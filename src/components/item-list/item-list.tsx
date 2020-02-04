@@ -2,9 +2,13 @@ import React, {useEffect, useState} from 'react'
 // import {ICollectionUser} from '../../types/collections-user'
 import { IStateCollectionsUser } from '../../reducers/collections-user';
 import { IAppState } from '../../reducers';
-import {getAllCollectionsUser,
-        editCollectionUser,
-        addCollectionUser
+import {
+        collectionsUserRequested,
+        fetchAddCollectionsUser,
+        fetchEditCollectionsUser,
+        // getAllCollectionsUser,
+        // editCollectionUser,
+        // addCollectionUser
 } from '../../actions/collections-user'
 import { connect } from 'react-redux';
 import Spinner from '../spinner';
@@ -12,14 +16,15 @@ import ErrorIndicator from '../error-indicator';
 import { ICollection } from '../../types/collection';
 import { ModalCollection } from '../modal-collection';
 import { useHistory } from 'react-router-dom';
+import { collectionUserActionTypes } from '../../types/actions-collections-user';
 
 type Props = LinkStateProps & LinkDispatchProps;
 
 const ItemList: React.FC<Props> = props => {
     const  {collectionsUser:{isLoading, collections, error}, 
-            getAllCollectionsUser,
-            addCollectionUser,
-            editCollectionUser } = props
+            collectionsUserRequested,
+            fetchAddCollectionsUser,
+            fetchEditCollectionsUser } = props
     const defaultCollection:ICollection = {
         id:0,
         name:'',
@@ -32,7 +37,8 @@ const ItemList: React.FC<Props> = props => {
     const [currCollection, setCurrCollection] =useState(defaultCollection)
     
     useEffect(() => {
-        getAllCollectionsUser()
+        // getAllCollectionsUser()
+        collectionsUserRequested()
     }, [])
 
     const history = useHistory()
@@ -43,9 +49,9 @@ const ItemList: React.FC<Props> = props => {
 
     const handlSave = (collection:ICollection):void => {
         if (collection.id === 0) {
-            addCollectionUser(collection)
+            fetchAddCollectionsUser(collection)
         } else {
-            editCollectionUser(collection)
+            fetchEditCollectionsUser(collection)
         }
         setShowModal(false)
     }
@@ -143,9 +149,12 @@ interface LinkStateProps {
     collectionsUser:IStateCollectionsUser;
 }
 interface LinkDispatchProps {
-    getAllCollectionsUser: () => void;
-    editCollectionUser: (collection:ICollection) => void;
-    addCollectionUser: (collection:ICollection) => void;
+    collectionsUserRequested: () => collectionUserActionTypes;
+    fetchAddCollectionsUser: (collection:ICollection) => collectionUserActionTypes;
+    fetchEditCollectionsUser: (collection:ICollection) => collectionUserActionTypes;
+    // getAllCollectionsUser: () => void;
+    // editCollectionUser: (collection:ICollection) => void;
+    // addCollectionUser: (collection:ICollection) => void;
 }
 
 const mapStateToProps = ({collectionsUser}:IAppState) => ({
@@ -153,10 +162,12 @@ const mapStateToProps = ({collectionsUser}:IAppState) => ({
 });
    
 const mapDispatchToProps = {
-    getAllCollectionsUser,
-    addCollectionUser,
-    editCollectionUser
-    
+    collectionsUserRequested,
+    fetchAddCollectionsUser,
+    fetchEditCollectionsUser,
+    // getAllCollectionsUser,
+    // addCollectionUser,
+    // editCollectionUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps) (ItemList)
