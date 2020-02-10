@@ -1,60 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import {IAppState} from '../../reducers'
-import {IStateUsers} from '../../reducers/users'
+import React from 'react'
+
 import { IUser } from '../../types/user'
+import Select from '../select'
+import { useSelector } from 'react-redux'
+import { IAppState } from '../../reducers'
 
-interface LinkStateProps {
-    users:IStateUsers;
-}
-
-interface ownProps {
-    onChangeUser: (user:IUser) => void, 
-    disable: boolean,
-    current: IUser | '0'
-}
-
-type Props = LinkStateProps & ownProps;
-// Продумать работу компонента! Нужен ли внутренний стайт?
-const SelectUser: React.FC<Props> = (props) => {
-    const {users:{users}, onChangeUser, current} = props;
-    console.log('in select propsUser', current)
-    const [currentUser, setCurrentUser] = useState<IUser | '0'>(current);
-    useEffect(() => {
-        console.log('in select effect', current)
-        setCurrentUser(current)
-
-    }, [current])
-    const hadleSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        const id:number = parseInt (e.currentTarget.value)
-        const user:IUser = users.find(item => item.id === id)!
-        setCurrentUser(user)
-        onChangeUser(user)
-
+type Props = {
+    onChangeUser: (user:IUser) => void,
+    current: number | '0'
+    disable: boolean
+};
+const SelectUser2: React.FC<Props> = (props) => {
+    const {onChangeUser, current ='0', disable = false} = props;
+    const users = useSelector<IAppState, IUser[]>(state => state.users.users)
+    const handlChangeUser = (id:number):void => {
+        const selectedUser = users.find(item => item.id === id)
+        onChangeUser(selectedUser!)
     }
-    const options:JSX.Element[] = users.map ((user) => {
-        return <option key={user.id} value={user.id}>{user.name}</option>
-    })
-    console.log('in select currUser', currentUser)
     return(
         <div className ="form-group">
-            <select 
-                className ={"form-control"} 
-                // defaultValue={currentUser !=='0'?currentUser.id:'0'} 
-                onChange={hadleSelectChange}
-                value={currentUser !=='0'?currentUser.id:'0'}
-                disabled={props.disable}
-            >
-                <option value="0" disabled>Выбирите пользователя ...</option>
-                {options}
-            </select>
+            <Select items={users} 
+            onChangeUser={handlChangeUser} 
+            current={current}
+            disable={disable} />
         </div>
 
     )
 }
 
-const mapStateToProps = ({users}:IAppState) => ({
-    users,
-});
-
-  export default connect(mapStateToProps)(SelectUser);
+export default SelectUser2;

@@ -1,2 +1,3 @@
-import {CollectionUserpermissions} from './collection-user-permission'
+import {CollectionUserpermissions, ModalCollectionPermission} from './collection-user-permission'
+export { ModalCollectionPermission}
 export default CollectionUserpermissions

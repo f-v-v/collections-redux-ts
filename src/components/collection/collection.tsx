@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ICollection } from '../../types/collection'
+import {withModal} from '../../hoc/with-modal'
 
 type Props = {
     collection: ICollection,
@@ -130,3 +131,5 @@ export const Collection: React.FC<Props > = ({collection, onSave, onClose}) => {
             </form>
       )
 }
+
+export const ModalCollection = withModal(Collection)

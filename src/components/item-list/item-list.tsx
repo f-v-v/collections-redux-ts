@@ -14,7 +14,8 @@ import { connect } from 'react-redux';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { ICollection } from '../../types/collection';
-import { ModalCollection } from '../modal-collection';
+// import { ModalCollection } from '../modal-collection';
+import { ModalCollection } from '../collection';
 import { useHistory } from 'react-router-dom';
 import { collectionUserActionTypes } from '../../types/actions-collections-user';
 

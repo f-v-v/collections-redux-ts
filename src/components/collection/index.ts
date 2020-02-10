@@ -1,2 +1,2 @@
-import {Collection} from './collection'
-export {Collection}
+import {Collection, ModalCollection} from './collection'
+export {Collection, ModalCollection}

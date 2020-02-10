@@ -56,6 +56,11 @@ class Login extends React.Component <Props, State> {
                     <div className ="form-group">
                         <button onClick={this.handleSetUser} className="btn btn-primary">Login</button>
                     </div>
+                    {/* <SelectUser2 
+                        disable={false} 
+                        onChangeUser={this.hadleSelectChange} 
+                        current={this.state.currentUser?.id?this.state.currentUser.id:'0'}
+                    /> */}
                 </div>
             // </div>
         )

@@ -3,6 +3,7 @@ import { ICollection } from '../../types/collection'
 import { IUser } from '../../types/user'
 import { Ipermissions } from '../../types/permissions'
 import SelectUser from '../select-user'
+import {withModal} from '../../hoc/with-modal'
 
 type Props = {
     collection: ICollection,
@@ -91,7 +92,7 @@ export const CollectionUserpermissions: React.FC<Props > = ({
                     onChangeUser={handlSelectUser} 
                     disable={user.id !== 0? true: false}
                     // current={user.id === 0? "0": user}
-                    current={userState.id === 0? "0": userState}
+                    current={userState.id === 0? "0": userState.id}
                 />
                 {/* <input type="text" 
                     disabled 
@@ -166,3 +167,5 @@ export const CollectionUserpermissions: React.FC<Props > = ({
         </form>
       )
 }
+
+export const ModalCollectionPermission = withModal(CollectionUserpermissions)

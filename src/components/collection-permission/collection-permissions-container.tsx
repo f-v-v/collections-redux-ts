@@ -18,17 +18,15 @@ import { IUser } from '../../types/user'
 import { Ipermissions } from '../../types/permissions'
 import { ICollection } from '../../types/collection'
 import { userCollectionActionTypes } from '../../types/actions-users-collection'
+import {ItemsPermissions} from '../items-permissions'
 
-// type ownProps = {
-//     // idCollection: number
-// }
 
 interface RouteParams {
     id: string
 }
 type Props = LinkStateProps & LinkDispatchProps;
 
-const CollectionPermission:React.FC<Props> = (props) => {
+const CollectionPermissions:React.FC<Props> = (props) => {
     const {usersCollection:{isLoading, users, error, selectedCollection},
     usersCollectionRequested, fetchModifyUsersCollection
         } = props
@@ -61,12 +59,8 @@ const CollectionPermission:React.FC<Props> = (props) => {
         usersCollectionRequested(idCollection)
     }, [idCollection])
     const handlEdit = (user:IUser, permissions:Ipermissions):void => {
-        console.log('in hadlEdit user', user)
-        console.log('in hadlEdit permission', permissions)
         setCurrUser(user)
         setCurrPermissions(permissions)
-        console.log('in hadlEdit curUser', currUser)
-        console.log('in hadlEdit curPermission', currPermissions)
         setShowModal(true)
     }
     const handlShowModalClose = () => {
@@ -91,52 +85,7 @@ const CollectionPermission:React.FC<Props> = (props) => {
     return (
         <>
         <SelectedCollection collection={selectedCollection}/>
-        <ul className="list-group">
-            <div className="container-fluid">
-            <li className={"list-group-item"}>
-                        <div className="row">
-                            <div className="col-sm-1">Индекс</div>
-                            <div className="col-sm-3 align-middle"><span className="align-middle">Имя</span></div>
-                            <div className="col-sm-2 align-middle"><span className="align-middle">Использование</span></div>
-                            <div className="col-sm-2 align-middle"><span className="align-middle">Редактирование</span></div>
-                            <div className="col-sm-2 align-middle"><span className="align-middle">Владение</span></div>
-                            
-                        </div>
-                    </li>
-            {users.map((item, index) => {
-                const tmpUser:IUser = {
-                    id:item.id,
-                    name:item.name,
-                }
-                const tmpPermission:Ipermissions = {
-                    use: item.use,
-                    edit: item.edit,
-                    own: item.own
-                }
-                return(
-                    <li className={"list-group-item"} key={item.id}>
-                        {/* <div className={"row" + (item.active?"":" bg-danger")}> */}
-                        <div className="row">
-                            <div className="col-sm-1">{index}</div>
-                            <div className="col-sm-3 "><span className="align-middle">{item.name}</span></div>
-                            <div className="col-sm-2 align-middle">{item.use?ok:not}</div>
-                            <div className="col-sm-2 align-middle">{item.edit?ok:not}</div>
-                            <div className="col-sm-2 align-middle">{item.own?ok:not}</div>
-                            
-                            <div className="col-sm-2">
-                                <button 
-                                type="button" 
-                                className="btn btn-primary btn-sm " 
-                                onClick={() => handlEdit (tmpUser, tmpPermission)}
-                                >Редактировать</button>
-                            </div>
-                        </div>
-                    </li>
-                )
-            })
-            }
-            </div>
-        </ul>
+        <ItemsPermissions items={users} onEdit={handlEdit} />
         <div className="container-fluid">
             <div className="row">
                 <div className="col-sm-2">
@@ -184,4 +133,4 @@ const mapDispatchToProps = {
     // ModifyUserPermission
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (CollectionPermission)
+export default connect(mapStateToProps, mapDispatchToProps) (CollectionPermissions)
