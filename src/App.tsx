@@ -6,7 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from './pages/home'
 import ItemList from './components/item-list/item-list';
 // import CollectionPermission from './components/collection-permission'
-import {CollectionPermissions} from './components/collection-permission'
+import {ConteinerCollectionPermissions} from './components/collection-permission'
 import NotFound from './pages/not-found';
 import PrivateRoute from './components/private-route'
 
@@ -24,7 +24,7 @@ const App: React.FC = () => {
           <Route path="/" component={HomePage} exact/>
           <Route path="/login" component={Login} />
           <PrivateRoute path="/collections" exact component={ItemList} />
-          <PrivateRoute path="/collections/:id" component={CollectionPermissions}/>
+          <PrivateRoute path="/collections/:id" component={ConteinerCollectionPermissions}/>
           <Route path="/error" exact component={NotFound} />
           <Route component={NotFound}/>
         </Switch>

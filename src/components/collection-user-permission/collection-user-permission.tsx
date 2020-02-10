@@ -22,8 +22,8 @@ export const CollectionUserpermissions: React.FC<Props > = ({
 
         }) => {
     
-    console.log('in modal user', user)
-    console.log('in modal permission', permission)
+    // console.log('in modal user', user)
+    // console.log('in modal permission', permission)
     const [use, setUse] =useState(permission.use)
     const [edit, setEdit] =useState(permission.edit)
     const [own, setOwn] =useState(permission.own)
@@ -46,7 +46,7 @@ export const CollectionUserpermissions: React.FC<Props > = ({
         setOwn(e.currentTarget.checked)
     }
     const handlSelectUser = (user:IUser): void => {
-        console.log('in modal handlSelectUser', user)
+        // console.log('in modal handlSelectUser', user)
         setUserState(user)
     }
     const handlSave = (e: React.FormEvent<HTMLButtonElement>): void => {

@@ -15,4 +15,4 @@ const SelectedCollection:React.FC <Props> = (props) => {
     )
 }
 
-export default SelectedCollection
+export default React.memo(SelectedCollection)
