@@ -1,3 +1,4 @@
+// Уже не нужен, этот функционал включен в with-is-loading-error
 import React from 'react';
 import ErrorIndicator from '../components/error-indicator'
 

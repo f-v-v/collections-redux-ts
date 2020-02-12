@@ -50,7 +50,6 @@ export const Collection: React.FC<Props > = ({collection, onSave, onClose}) => {
         e.preventDefault()
         onClose()
     }
-    
 
     return (<form>
                 <div className="form-group row">

@@ -10,7 +10,7 @@ type Props = {
     current: number | '0'
     disable: boolean
 };
-const SelectUser2: React.FC<Props> = (props) => {
+const SelectUser: React.FC<Props> = (props) => {
     const {onChangeUser, current ='0', disable = false} = props;
     const users = useSelector<IAppState, IUser[]>(state => state.users.users)
     const handlChangeUser = (id:number):void => {
@@ -28,4 +28,4 @@ const SelectUser2: React.FC<Props> = (props) => {
     )
 }
 
-export default SelectUser2;
+export default SelectUser;

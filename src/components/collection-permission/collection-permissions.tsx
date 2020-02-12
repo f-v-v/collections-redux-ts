@@ -8,7 +8,6 @@ import {ItemsPermissions} from '../items-permissions'
 import withIsLoadingError from '../../hoc/with-is-loading-error'
 import { IUserCollection } from '../../types/users-collection'
 
-
 interface Props {
     users: IUserCollection[],
     selectedCollection: ICollection |null, // Перенести получение в SelectedCollection?!
@@ -28,8 +27,6 @@ const CollectionPermissions:React.FC<Props> = (props) => {
         currUser, currPermissions, 
         handlEdit, handlSave, handlShowModalClose
         } = props
-    // const ok:JSX.Element = <i className="fa fa-check-square-o"></i>
-    // const not:JSX.Element = <i className="fa fa-minus-square-o"></i>
 
     return (
         <>
@@ -58,6 +55,4 @@ const CollectionPermissions:React.FC<Props> = (props) => {
     )
 }
 
-
-// export default compose<React.FC<P extends Props>>(withIsLoading, withIsError)  (CollectionPermissions)
 export default withIsLoadingError<Props>(CollectionPermissions)

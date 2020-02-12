@@ -91,14 +91,8 @@ export const CollectionUserpermissions: React.FC<Props > = ({
                 <SelectUser 
                     onChangeUser={handlSelectUser} 
                     disable={user.id !== 0? true: false}
-                    // current={user.id === 0? "0": user}
                     current={userState.id === 0? "0": userState.id}
                 />
-                {/* <input type="text" 
-                    disabled 
-                    className="form-control-plaintext" 
-                    value={user.name}
-                /> */}
                 </div>
             </div>
             <div className="form-group row">

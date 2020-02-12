@@ -1,7 +1,6 @@
 export interface IIdCollection {
     id: number;
 }
-// export interface ICollection_ extends IIdCollection {
 export interface ICollection_ {
     name: string;
     type: number;

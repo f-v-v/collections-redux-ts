@@ -1,3 +1,4 @@
+//не рабочий но разобраться....!
 import React from 'react';
 
 // type modal = {

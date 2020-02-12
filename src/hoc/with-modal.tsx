@@ -1,23 +1,5 @@
 import React from 'react';
 
-// // type modal = {
-// //   show: boolean,
-// //   onClose:() => void,
-// // }
-
-// // type = Omit<Todo, 'description'>;
-// type ShadowInjected<T1, T2> = Omit<T1, keyof T2>;
-// // interface Props extends Object {
-// // }
-
-// interface modal {
-//   show: boolean,
-//   // onClose:() => void,
-// }
-
-// // type T = Omit <modal, 'show'>
-// export const withModal =<T extends modal> (
-
 type ShowModalProps = {
   show:boolean
 }
@@ -29,7 +11,6 @@ export function withModal<Props>(WrappedComponent: React.ComponentType<Props>) {
   return function(props: Props & ShowModalProps & CloseModalProps) {
     const { show, ...rest } = props as ShowModalProps;
     const {onClose} = rest as CloseModalProps
-    //   const {show, ...ownProps} = props as modal
     let styles = show
     ? { display: "block" }
     : { display: "none" };
@@ -55,10 +36,6 @@ export function withModal<Props>(WrappedComponent: React.ComponentType<Props>) {
            </div>
        </div>
      </div>
-      // <React.Fragment>
-      //   <WrappedComponent {...rest as Props} />
-      //   {show && <div>{show}</div>}
-      // </React.Fragment>
     );
   };
 }

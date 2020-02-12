@@ -7,7 +7,6 @@ interface Props {
     item:ICollectionUser;
     index: number;
     onEdit:(collection:ICollection) =>void;
-    // onPermission:(id:number) =>void;
     // onComposition:() =>void;
 }
 

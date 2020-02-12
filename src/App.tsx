@@ -4,18 +4,12 @@ import './App.css';
 import Login from './pages/login';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from './pages/home'
-// import ItemList from './components/item-list/item-list';
 import CollectionListContainer from './components/collection-list'
-// import CollectionPermission from './components/collection-permission'
 import {ConteinerCollectionPermissions} from './components/collection-permission'
 import NotFound from './pages/not-found';
 import PrivateRoute from './components/private-route'
 
 const App: React.FC = () => {
-  // const defaultProtectedRouteProps: PrivateRouteProps = {
-  //   isAuthenticated: false,
-  //   authenticationPath: '/login',
-  // }
 
   return (
     <>
